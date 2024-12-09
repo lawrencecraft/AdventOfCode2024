@@ -2,10 +2,12 @@ from dataclasses import dataclass
 from collections import defaultdict
 from functools import cmp_to_key
 
+
 @dataclass
 class Input:
     rules: list[tuple[int, int]]
-    inputs:  list[list[int]]
+    inputs: list[list[int]]
+
 
 def part1(input: list[str]) -> None:
     inputs = _parse_input(input)
@@ -25,7 +27,6 @@ def _is_sorted(input: list[int], lesser_map: dict[int, set[int]]):
     return True
 
 
-
 def part2(input: list[str]) -> None:
     inputs = _parse_input(input)
 
@@ -38,9 +39,14 @@ def part2(input: list[str]) -> None:
         if b in is_lesser_map[a]:
             return 1
         return -1
-        
-    fixed_inputs = [sorted(i, key=cmp_to_key(io_cmp)) for i in inputs.inputs if not _is_sorted(i, is_lesser_map)]
+
+    fixed_inputs = [
+        sorted(i, key=cmp_to_key(io_cmp))
+        for i in inputs.inputs
+        if not _is_sorted(i, is_lesser_map)
+    ]
     print(sum(i[len(i) // 2] for i in fixed_inputs))
+
 
 def _parse_input(input: list[str]) -> Input:
     input_stack = input.copy()
@@ -50,15 +56,14 @@ def _parse_input(input: list[str]) -> Input:
     inputs: list[list[int]] = []
 
     while (val := input_stack.pop()) != "":
-        lo, hi = val.split('|')
+        lo, hi = val.split("|")
         rules.append((int(lo), int(hi)))
 
     while input_stack:
         line = input_stack.pop()
-        inputs.append([int(x) for x in line.split(',')])
+        inputs.append([int(x) for x in line.split(",")])
 
     return Input(rules=rules, inputs=inputs)
-    
 
 
 def main():
