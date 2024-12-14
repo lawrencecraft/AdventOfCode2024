@@ -1,4 +1,5 @@
 from functools import cache
+from math import log10
 
 
 def part1(input: list[str]):
@@ -14,26 +15,28 @@ def part2(input: list[str]):
 
 
 @cache
-def calc_unique(generations: int, num: str):
+def calc_unique(generations: int, num: int):
     if generations == 0:
         return 1
 
-    if num == "0":
-        return calc_unique(generations - 1, "1")
+    if num == 0:
+        return calc_unique(generations - 1, 1)
 
-    if len(num) % 2 == 0:
-        first = num[: len(num) // 2]
-        second = num[len(num) // 2 :]
+    digits = int(log10(num)) + 1
+    if digits % 2 == 0:
+        base = 10 ** (digits // 2)
+        first = num // base
+        second = num % base
 
-        return calc_unique(generations - 1, str(int(first))) + calc_unique(
-            generations - 1, str(int(second))
+        return calc_unique(generations - 1, first) + calc_unique(
+            generations - 1, second
         )
 
-    return calc_unique(generations - 1, str(int(num) * 2024))
+    return calc_unique(generations - 1, num * 2024)
 
 
 def parse_input(input: list[str]):
-    return [x for x in input[0].split(" ")]
+    return [int(x) for x in input[0].split(" ")]
 
 
 def main():
