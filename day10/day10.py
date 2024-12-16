@@ -1,5 +1,4 @@
 from typing import Iterator
-from collections import deque
 
 
 def part1(raw_input: list[str]):
@@ -22,12 +21,10 @@ def find_ends(grid: list[str], trailhead: tuple[int, int], track_visited: bool) 
 
     directions = [(-1, 0), (0, 1), (1, 0), (0, -1)]
 
-    # locations = deque([trailhead])
     locations = [trailhead]
     ends = 0
 
     while locations:
-        # row, col = locations.popleft()
         row, col = locations.pop()
 
         if track_visited:
