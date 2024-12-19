@@ -37,12 +37,13 @@ def visit_map(raw_input: list[str]) -> tuple[int, int]:
             continue
 
         visited[current_node] = score
+
         if prev_node is not None:
             prev[current_node] = [prev_node]
 
         if (r, c) == target:
             winning_score = score
-            break
+            continue
 
         dr, dc = directions[direction]
 
